@@ -5,7 +5,6 @@ const pgp = require('pg-promise')(); // To connect to the Postgres DB from the n
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
-const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part B.
 
 // CONNECT TO DB
 const dbConfig = {
@@ -51,6 +50,10 @@ app.get('/', (req, res) => {
     res.redirect('/login');
 });
 
+app.get('/welcome', (req, res) => {
+    res.json({ status: 'success', message: 'Welcome!' });
+});
+
 app.get('/login', (req, res) => {
     res.render('pages/login');
 });
@@ -65,14 +68,20 @@ app.post('/login', (req, res) => {
                     req.session.loggedin = true;
                     req.session.user = username;
                     req.session.save();
-                    res.redirect('/discover');
+                    res.json({ status: 'success', message: 'Welcome!' })
+                    res.redirect('/discover', {
+                        message: 'Welcome!',
+                        messageClass: 'alert-success',
+                        });
                 } else {
+                    res.json({ status: 'error', message: 'Incorrect username or password' })
                     res.render('pages/login', {
                         message: 'Incorrect username or password',
                         error: true,
                     });
                 }
             } else {
+                res.json({ status: 'error', message: 'Incorrect username or password' })
                 res.render('pages/register', {
                     message: 'Incorrect username or password',
                     error: true,
@@ -94,6 +103,7 @@ app.post('/register', async (req, res) => {
     db.oneOrNone('SELECT * FROM users WHERE username = $1', [username])
         .then(user => {
             if (user) {
+                res.json({ status: 'error', message: 'Username already exists' })
                 res.render('pages/register', {
                     message: 'Username already exists',
                     error: true,
@@ -104,9 +114,11 @@ app.post('/register', async (req, res) => {
                     hashedPassword,
                 ])
                     .then(() => {
+                        res.json({ status: 'success', message: 'Registration successful' })
                         res.render('pages/login', {
                             message: 'Registration successful',
                             messageClass: 'alert-success',
+                            error: false,
                         });
                     })
                     .catch(error => {
@@ -118,3 +130,6 @@ app.post('/register', async (req, res) => {
             console.log('ERROR:', error.message || error);
         });
 });
+
+module.exports = app.listen(3000);
+console.log('Server running on port 3000');
