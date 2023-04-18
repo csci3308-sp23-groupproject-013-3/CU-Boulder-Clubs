@@ -27,7 +27,6 @@ db.connect()
     });
 
 // APP SETTINGS
-
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 
@@ -130,6 +129,20 @@ app.post('/register', async (req, res) => {
             console.log('ERROR:', error.message || error);
         });
 });
+
+app.get('/clubs', (req, res) => {
+    db.any('SELECT * FROM clubs')
+        .then(clubs => {
+            res.render('pages/clubs', {
+                clubs: clubs,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+
 
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');
