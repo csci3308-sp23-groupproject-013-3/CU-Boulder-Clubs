@@ -27,3 +27,13 @@ CREATE TABLE IF NOT EXISTS users(
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(60) NOT NULL
 );
+/*
+DROP TABLE IF EXISTS users_clubs CASCADE;
+CREATE TABLE users_clubs (
+    user_id INTEGER NOT NULL,
+    club_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, club_id),
+    FOREIGN KEY (user_id) REFERENCES users (user_id),
+    FOREIGN KEY (club_id) REFERENCES clubs (club_id)
+);
+*/
