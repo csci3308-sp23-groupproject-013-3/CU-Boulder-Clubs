@@ -6,7 +6,7 @@
         <h1>CU Boulder Clubs</h1>
     </div>
     <div class="container" id="search">
-        <input type="text" class="form-control" id="searchBar" oninput="searchTable()" placeholder="Search for clubs...">
+        <input type="text" class="form-control" id="searchBar" onkeyup="searchTable()" placeholder="Search for clubs...">
     </div>
     
     <div class="container" id="table">
@@ -22,9 +22,9 @@
             <tbody id="clubTable">
                 <% clubs.forEach(function(club) { %>
                 <tr>
-                    <td><%= club.name %></td>
-                    <td><%= club.description %></td>
-                    <td><%= club.category %></td>
+                    <td><%= club.club_name %></td>
+                    <td><%= club.club_description %></td>
+                    <td><%= club.categories %></td>
                     <td><a href="<%= club.website %>"><%= club.website %></a></td>
                 </tr>
                 <% }); %>
@@ -39,11 +39,11 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5><%= club.name %></h5>
+                            <h5><%= club.club_name %></h5>
                         </div>
                         <div class="card-body">
-                            <p><%= club.description %></p>
-                            <p><%= club.category %></p>
+                            <p><%= club.club_description %></p>
+                            <p><%= club.categories %></p>
                             <a href="<%= club.website %>"><%= club.website %></a>
                         </div>
                     </div>
@@ -59,9 +59,9 @@
         </select>
         <select class="form-control" id="category" oninput="filterTable()">
             <option value="all">All</option>
-            <% categories.forEach(function(category) { %>
-                <option value="<%= category.name %>"><%= category.name %></option>
-            <% }); %>
+            <% for (let i = 0; i < categories.length; i++) { %>
+                <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+            <% } %>
         </select>
         <input type="checkbox" id="reverse" onclick="sortTable()"> Reverse</input>
         <input type="checkbox" id="cardView" onclick="toggleView()"> Card View</input>

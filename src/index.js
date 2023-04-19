@@ -133,10 +133,13 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/clubs', (req, res) => {
-    db.any('SELECT * FROM clubs')
+    let categories = [];
+    categories = db.any('SELECT * FROM categories')
+    db.any('SELECT * FROM clubs_view')
         .then(clubs => {
             res.render('pages/clubs', {
                 clubs: clubs,
+                categories: categories,
             });
         })
         .catch(error => {
