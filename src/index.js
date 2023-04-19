@@ -17,6 +17,8 @@ const dbConfig = {
 
 const db = pgp(dbConfig);
 
+app.use(express.static(__dirname + '/resources'));
+
 db.connect()
     .then(obj => {
         console.log('Database connection successful');

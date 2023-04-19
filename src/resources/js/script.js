@@ -48,9 +48,9 @@ function filterTable() {
 // Searches the table by the user input
 function searchTable() {
     var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
+    input = document.getElementById("searchBar");
     filter = input.value.toUpperCase();
-    table = document.getElementById("clubs");
+    table = document.getElementById("table");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
