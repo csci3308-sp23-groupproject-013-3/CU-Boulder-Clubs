@@ -5,6 +5,7 @@ const pgp = require('pg-promise')(); // To connect to the Postgres DB from the n
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
+const async = require('async');
 
 // CONNECT TO DB
 const dbConfig = {
@@ -13,6 +14,7 @@ const dbConfig = {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
+    max_connections: 10,
 };
 
 const db = pgp(dbConfig);
@@ -134,12 +136,25 @@ app.post('/register', async (req, res) => {
 
 app.get('/clubs', (req, res) => {
     let categories = [];
-    categories = db.any('SELECT * FROM categories')
-    db.any('SELECT * FROM clubs_view')
-        .then(clubs => {
+    db.any('SELECT * FROM categories; SELECT * FROM clubs_view;')
+        .then(data => {
+            const clubs = data;
             res.render('pages/clubs', {
-                clubs: clubs,
-                categories: categories,
+                clubs,
+                categories,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.get('/clubs/:id', (req, res) => {
+    const id = req.params.id;
+    db.oneOrNone('SELECT * FROM clubs_view WHERE club_id = $1', [id])
+        .then(club => {
+            res.render('pages/club', {
+                club,
             });
         })
         .catch(error => {

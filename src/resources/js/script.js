@@ -2,15 +2,16 @@
 // Sorts the table by the user input
 function sortTable() {
     var table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("clubs");
+    table = document.getElementById("clubTable");
     switching = true;
     while (switching) {
         switching = false;
         rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
+        for (i = 0; i < (rows.length - 1); i++) {
             shouldSwitch = false;
-            x = rows[i].getElementsByTagName("TD")[0];
-            y = rows[i + 1].getElementsByTagName("TD")[0];
+            x = rows[i].getElementsByTagName("td")[0];
+            console.log(rows[i].getElementsByTagName("td")[0].innerHTML)
+            y = rows[i + 1].getElementsByTagName("td")[0];
             if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                 shouldSwitch = true;
                 break;
@@ -77,4 +78,9 @@ function toggleView() {
         x.style.display = "none";
         y.style.display = "block";
     }
+}
+
+function reverseTable() {
+    // Reorder the rows of the table in reverse
+
 }

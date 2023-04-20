@@ -37,3 +37,11 @@ CREATE TABLE users_clubs (
     FOREIGN KEY (club_id) REFERENCES clubs (club_id)
 );
 */
+
+DROP VIEW IF EXISTS clubs_view CASCADE;
+CREATE VIEW clubs_view AS
+    SELECT clubs.club_id, club_name, club_description, meeting_day, meeting_time, meeting_place, members, array_agg(category_name) AS categories
+    FROM clubs
+    LEFT JOIN clubs_categories ON clubs.club_id = clubs_categories.club_id
+    LEFT JOIN categories ON clubs_categories.category_id = categories.category_id
+    GROUP BY clubs.club_id;
