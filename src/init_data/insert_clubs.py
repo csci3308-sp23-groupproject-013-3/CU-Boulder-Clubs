@@ -34,8 +34,8 @@ def main():
                 currID += 1
                 name = row[0]
                 category = categories[row[1]]
-                member_count = row[5]
-                sql.write(f"INSERT INTO clubs (name, member_count) VALUES ('{name}', {member_count});\n")
+                member_count = row[7]
+                sql.write(f"INSERT INTO clubs (club_name, members) VALUES ('{name}', {member_count});\n")
                 sql.write(f"INSERT INTO clubs_categories (club_id, category_id) VALUES ({currID}, {category});\n")
 
 main()
