@@ -1,3 +1,20 @@
+INSERT INTO reviews (text, rating, user_id, club_id)
+SELECT 'Great club, highly recommend!', 5, 1, 2
+WHERE NOT EXISTS (
+    SELECT 1 FROM reviews WHERE text = 'Great club, highly recommend!'
+);
+    
+INSERT INTO reviews (text, rating, user_id, club_id)
+SELECT 'Not the best experience, would not join again', 2, 3, 4
+WHERE NOT EXISTS (
+    SELECT 1 FROM reviews WHERE text = 'Not the best experience, would not join again'
+);
+
+INSERT INTO reviews (text, rating, user_id, club_id)
+SELECT 'This club changed my life!', 4, 2, 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM reviews WHERE text = 'This club changed my life!'
+);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('1825','Religion & Spirituality','7:00pm','2221 Stonehenge Circle Lafayette',6);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('4Ukraine','Social Justice, Advocacy & Activism',NULL,NULL,5);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('Adobe Creative Club','Art, Music & Performance','Not decidesd yet','Not decidesd yet',3);
