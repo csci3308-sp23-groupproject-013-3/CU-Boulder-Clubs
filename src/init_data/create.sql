@@ -14,10 +14,16 @@ CREATE TABLE IF NOT EXISTS clubs(
   category VARCHAR(120),
   meeting_time VARCHAR(120),
   location VARCHAR(120),
+<<<<<<< Updated upstream
   members SMALLINT
 );
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users(
+=======
+  memebrs SMALLINT
+=======
+CREATE TABLE IF NOT EXISTS users(
+>>>>>>> Stashed changes
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(60) NOT NULL
 );
