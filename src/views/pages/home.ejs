@@ -1,0 +1,29 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+    <main>
+        <div class="col"><%- include ('../partials/message') %></div>
+        <div class="album py-5 bg-light">
+            <div class="container">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                
+                <% clubs.forEach(club => { %>
+                <div class="col">
+                  <div class="card shadow-sm">
+                    <div class="card-body" id="club-card">
+                      <h5 class="card-title"><% club.club_name %></h5>
+                      <p class="card-text">Category: <% club.category %></p>
+                      <p class="card-text">Meeting Time: <% club.meeting_time %></p>
+                    </div>
+                  </div>
+                </div>
+                
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </body>
+        </div>
+    </main>
+
+<%- include ('../partials/footer') %>
