@@ -165,5 +165,31 @@ app.get('/clubs/:id', (req, res) => {
 
 
 
+app.get('/clubs/add', (req, res) => {
+    db.any('SELECT * FROM categories')
+        .then(categories => {
+            res.render('pages/addClub', {
+                categories,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.post('/clubs/add', (req, res) => {
+    const { name, description, category } = req.body;
+    db.none('INSERT INTO clubs(name, description, category_id) VALUES($1, $2, $3)', [
+        name,
+        description,
+        category,
+    ])
+        .then(() => {
+            res.redirect('/clubs');
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');
