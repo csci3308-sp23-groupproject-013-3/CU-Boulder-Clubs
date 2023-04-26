@@ -134,9 +134,10 @@ app.post('/register', async (req, res) => {
         });
 });
 
-app.get('/clubs', (req, res) => {
-    let categories = [];
-    db.any('SELECT * FROM categories; SELECT * FROM clubs_view;')
+app.get('/clubs', async (req, res) => {
+    const categories = await db.any('SELECT * FROM categories');
+
+    db.any('SELECT * FROM clubs_view')
         .then(data => {
             const clubs = data;
             res.render('pages/clubs', {
@@ -153,7 +154,7 @@ app.get('/clubs/:id', (req, res) => {
     const id = req.params.id;
     db.oneOrNone('SELECT * FROM clubs_view WHERE club_id = $1', [id])
         .then(club => {
-            res.render('pages/club', {
+            res.render('pages/clubPages', {
                 club,
             });
         })

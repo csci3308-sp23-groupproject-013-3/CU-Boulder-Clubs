@@ -22,7 +22,7 @@
             <tbody id="clubTable">
                 <% clubs.forEach(function(club) { %>
                 <tr>
-                    <td><%= club.club_name %></td>
+                    <td><a href="/clubs/<%= club.club_id %>"><%= club.club_name %></a></td>
                     <td><%= club.club_description %></td>
                     <td><%= club.categories %></td>
                     <td><a href="<%= club.website %>"><%= club.website %></a></td>
@@ -56,15 +56,16 @@
         <select class="form-control" id="sort" oninput="sortTable()">
             <option value="name">Name</option>
             <option value="category">Category</option>
+            <option value="members">Members</option>
         </select>
         <select class="form-control" id="category" oninput="filterTable()">
-            <option value="all">All</option>
+            <option value="ALL" selected>All</option>
             <% for (let i = 0; i < categories.length; i++) { %>
-                <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                <option value="<%= categories[i].category_name %>"><%= categories[i].category_name %></option>
             <% } %>
         </select>
-        <input class="form-check-input" type="checkbox" id="reverse" onclick="sortTable()"> Reverse</input>
-        <input class="form-check-input" role="switch" type="checkbox" id="cardView" onclick="toggleView()"> Card View</input>
+        <input class="form-check-input" type="checkbox" id="reverse" onclick="reverseTable()"> Reverse</input>
+        <input class="form-check-input" type="checkbox" id="cardView" onclick="toggleView()"> Card View</input>
     </div>
 </div>
 
