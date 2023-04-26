@@ -165,5 +165,107 @@ app.get('/clubs/:id', (req, res) => {
 
 
 
+app.get('/clubs/add', (req, res) => {
+    db.any('SELECT * FROM categories')
+        .then(categories => {
+            res.render('pages/addClub', {
+                categories,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.post('/clubs/add', (req, res) => {
+    const { name, description, category } = req.body;
+    db.none('INSERT INTO clubs(name, description, category_id) VALUES($1, $2, $3)', [
+        name,
+        description,
+        category,
+    ])
+        .then(() => {
+            res.redirect('/clubs');
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.get('/clubs/:id/edit', (req, res) => {
+    const id = req.params.id;
+    db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id])
+        .then(club => {
+            res.render('pages/editClub', {
+                club,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.post('/clubs/:id/edit', (req, res) => {
+    const id = req.params.id;
+    const { club_name, description, category, meeting_time, meeting_location, members } = req.body;
+    if (category != "NULL"){
+        db.none('UPDATE clubs SET name = $1, description = $2, category = $3, meeting_time = $4, meeting_location = $5, members = $6 WHERE club_id = $7', [
+            club_name,
+            description,
+            category,
+            meeting_time,
+            meeting_location,
+            members,
+            id,
+        ])
+            .then(() => {
+                res.redirect('/clubs');
+            })
+            .catch(error => {
+                console.log('ERROR:', error.message || error);
+            });
+    }
+    else{
+        db.none('UPDATE clubs SET name = $1, description = $2, meeting_time = $3, meeting_location = $4, members = $5 WHERE club_id = $6', [
+            club_name,
+            description,
+            meeting_time,
+            meeting_location,
+            members,
+            id,
+        ])
+            .then(() => {
+                res.redirect('/clubs');
+            })
+            .catch(error => {
+                console.log('ERROR:', error.message || error);
+            });
+    }
+});
+
+app.get('/clubs/:id/delete', (req, res) => {
+    const id = req.params.id;
+    db.one('SELECT * FROM clubs WHERE club_id = $1', [id])
+        .then(club => {
+            res.render('pages/deleteClub', {
+                club,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.post('/clubs/:id/delete', (req, res) => {
+    const id = req.params.id;
+    db.none('DELETE FROM clubs WHERE club_id = $1', [id])
+        .then(() => {
+            res.redirect('/clubs');
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');
