@@ -1,45 +1,120 @@
 // For use with the clubs display page, clubs.ejs
-// Sorts the table by the user input
+// Sorts the table in alphabetical order by the column specified by the user input
+// Stored in the variable "sort"
 function sortTable() {
-    var table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("clubTable");
+    //document.getElementById("reverse").checked = false;
+    var cards = document.getElementByID("cardView").checked;
+
+    var input, sort, table, tr, columnNum, i, x, y, switching, shouldSwitch;
+    if (cards) table = document.getElementById("cards");
+    else table = document.getElementById("clubTable");
+
+    input = document.getElementById("sort");
+    sort = input.value.toUpperCase();
     switching = true;
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 0; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            x = rows[i].getElementsByTagName("td")[0];
-            console.log(rows[i].getElementsByTagName("td")[0].innerHTML)
-            y = rows[i + 1].getElementsByTagName("td")[0];
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                shouldSwitch = true;
-                break;
+    if (cards) {
+        while(switching) {
+            switching = false;
+            tr = table.getElementsByTagName("div");
+            for (i = 0; i < (tr.length - 1); i++) {
+                shouldSwitch = false;
+                x = tr[i].getElementsByTagName("h5")[0];
+                y = tr[i + 1].getElementsByTagName("h5")[0];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                tr[i].parentNode.insertBefore(tr[i + 1], tr[i]);
+                switching = true;
             }
         }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
+    }
+    else if (sort == "NAME"){
+        columnNum = 0;
+        while(switching) {
+            switching = false;
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < (tr.length - 1); i++) {
+                shouldSwitch = false;
+                x = tr[i].getElementsByTagName("td")[columnNum];
+                y = tr[i + 1].getElementsByTagName("td")[columnNum];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                tr[i].parentNode.insertBefore(tr[i + 1], tr[i]);
+                switching = true;
+            }
+        }
+    }
+    else if (sort == "CATEGORY"){
+        columnNum = 2;
+        while(switching) {
+            switching = false;
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < (tr.length - 1); i++) {
+                shouldSwitch = false;
+                x = tr[i].getElementsByTagName("td")[columnNum];
+                y = tr[i + 1].getElementsByTagName("td")[columnNum];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                tr[i].parentNode.insertBefore(tr[i + 1], tr[i]);
+                switching = true;
+            }
+        }
+    }
+    else if (sort == "MEMBERS"){
+        columnNum = 4;
+        while(switching) {
+            switching = false;
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < (tr.length - 1); i++) {
+                shouldSwitch = false;
+                x = tr[i].getElementsByTagName("td")[columnNum];
+                y = tr[i + 1].getElementsByTagName("td")[columnNum];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                tr[i].parentNode.insertBefore(tr[i + 1], tr[i]);
+                switching = true;
+            }
         }
     }
 }
 
 // For use with the clubs display page, clubs.ejs
-// Filters the table by the user input
+// Filters the table by the user input stored in the id "category"
 function filterTable() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("category");
     filter = input.value.toUpperCase();
-    table = document.getElementById("clubs");
+    table = document.getElementById("clubTable");
     tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+    if (filter == "ALL") {
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+        }
+    } else {
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
         }
     }
@@ -81,6 +156,5 @@ function toggleView() {
 }
 
 function reverseTable() {
-    // Reorder the rows of the table in reverse
-
+    // Reorder the rows of the table in reverse order
 }
