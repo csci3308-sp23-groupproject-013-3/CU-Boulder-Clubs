@@ -93,6 +93,28 @@ app.post('/login', (req, res) => {
         });
 });
 
+
+app.post('/search', (req, res) => {
+    const { keyword } = req.body;
+    db.oneOrNone('SELECT * FROM clubs WHERE club_name LIKE %$1%', [keyword])
+        .then(async clubs => {
+            if (clubs) {
+                res.render('/search', {
+                    club: clubs
+                    });
+            } else {
+                res.render('/search', {
+                    club: []
+                    });
+            }
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+
+
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });

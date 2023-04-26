@@ -1,0 +1,36 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+    <main>
+        <div class="col"><%- include ('../partials/message') %></div>
+        <div class="container">
+            <form action="/search" method="POST">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Discover New Clubs!</label>
+                  <input type="test" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Keywoard or Club Name">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+                <%
+            var card = '';
+            if (clubs != []){
+                clubs.forEach(function(club){
+                    card += '<div class="card" style="width: 100;"><div class="card-body">';
+                    card += '<p class="card-text">'+club.club_name+'</p>';
+                    card += '<p class="card-text">'+club.category+'</p>';
+                    card += '<p class="card-text">'+club.meeting_time+'</p>';
+                    card += '<p class="card-text">'+club.location+'</p>';
+                    card += '<p class="card-text">'+club.members+'</p>';
+                    card += '</div></div>';
+                });
+            } else{
+                card += '<p>No clubs found with the specified input</p>';
+            }
+            
+
+            %>
+            <%- card %>
+        </div>
+    </main>
+
+<%- include ('../partials/footer') %>
