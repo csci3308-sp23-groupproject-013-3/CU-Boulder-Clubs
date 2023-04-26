@@ -1,0 +1,12 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+<div class="container">
+    <h1>Delete <%= club.club_name %>?</h1>
+    <form action="/clubs/<%= club.club_id %>/delete" method="POST">
+        <button class="btn btn-danger">Delete</button>
+    </form>
+    <button class="btn btn-primary" onclick="window.location.href='/clubs'">Cancel</button>
+</div>
+
+<%- include ('../partials/footer') %>

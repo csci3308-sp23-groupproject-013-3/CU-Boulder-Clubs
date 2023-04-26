@@ -1,0 +1,29 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+<div class="container"/>
+    <div class="container">
+        <h1><%= club.club_name %></h1>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Club Name</th>
+                    <th>Club Location</th>
+                    <th>Club Description</th>
+                    <th>Club Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= club.club_name %></td>
+                    <td><%= club.club_location %></td>
+                    <td><%= club.club_description %></td>
+                    <td><img src="<%= club.club_image %>" alt="club image" width="200" height="200"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>
