@@ -72,7 +72,7 @@ app.post('/login', (req, res) => {
                     req.session.user = username;
                     req.session.save();
                     res.json({ status: 'success', message: 'Welcome!' })
-                    res.redirect('/discover', {
+                    res.redirect('/home', {
                         message: 'Welcome!',
                         messageClass: 'alert-success',
                         });
@@ -134,6 +134,7 @@ app.post('/register', async (req, res) => {
         });
 });
 
+<<<<<<< Updated upstream
 app.get('/clubs', async (req, res) => {
     const categories = await db.any('SELECT * FROM categories');
 
@@ -265,6 +266,28 @@ app.post('/clubs/:id/delete', (req, res) => {
         .catch(error => {
             console.log('ERROR:', error.message || error);
         });
+=======
+app.get('/home', (req, res) => {
+    const query = "SELECT club_id FROM users_to_clubs WHERE username = $1;";
+    const username = req.session.user.username;
+    console.log(username)
+
+    db.any(query, [username])
+        .then((result) => {
+            console.log(result[0]['club_id']);
+            const query2 = "SELECT * FROM clubs WHERE club_id = $1;";
+            db.any(query2, result[0]['club_id'])
+                .then((result2) => {
+                    console.log(result2);
+                    res.render('pages/home', { clubs: result2 });
+                })
+        })
+        .catch((err) => {
+            console.log(err);
+            res.render('pages/home', { clubs: [] })
+        });
+    
+>>>>>>> Stashed changes
 });
 
 module.exports = app.listen(3000);

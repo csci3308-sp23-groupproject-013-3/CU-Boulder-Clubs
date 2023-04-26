@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS users(
     password VARCHAR(60) NOT NULL
 );
 
+<<<<<<< Updated upstream
 DROP TABLE IF EXISTS users_clubs CASCADE;
 CREATE TABLE users_clubs (
     username INTEGER NOT NULL,
@@ -40,3 +41,9 @@ CREATE TABLE IF NOT EXISTS categories(
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(120) NOT NULL
 );
+=======
+CREATE TABLE IF NOT EXISTS users_to_clubs(
+  club_id INTEGER,
+  username VARCHAR(50) 
+);
+>>>>>>> Stashed changes

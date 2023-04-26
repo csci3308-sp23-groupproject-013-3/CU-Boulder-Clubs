@@ -578,6 +578,7 @@ INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('You
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('Young Life College','Social','Wednesday, 7-9pm','Varies!',28);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('Yu-Gi-Oh Club','Social','6-9 pm','Ketchum',6);
 
+<<<<<<< Updated upstream
 INSERT INTO categories (category_name) VALUES ('Humanities and Social Sciences');
 INSERT INTO categories (category_name) VALUES ('STEM');
 INSERT INTO categories (category_name) VALUES ('Art, Music, & Performance');
@@ -597,3 +598,7 @@ INSERT INTO categories (category_name) VALUES ('Religion & Spirituality');
 INSERT INTO categories (category_name) VALUES ('Residence Life');
 INSERT INTO categories (category_name) VALUES ('Social');
 INSERT INTO categories (category_name) VALUES ('Social Justice, Advocacy, & Activism');
+=======
+
+INSERT INTO users_to_clubs(10, vilo2343);
+>>>>>>> Stashed changes
