@@ -242,5 +242,30 @@ app.post('/clubs/:id/edit', (req, res) => {
             });
     }
 });
+
+app.get('/clubs/:id/delete', (req, res) => {
+    const id = req.params.id;
+    db.one('SELECT * FROM clubs WHERE club_id = $1', [id])
+        .then(club => {
+            res.render('pages/deleteClub', {
+                club,
+            });
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
+app.post('/clubs/:id/delete', (req, res) => {
+    const id = req.params.id;
+    db.none('DELETE FROM clubs WHERE club_id = $1', [id])
+        .then(() => {
+            res.redirect('/clubs');
+        })
+        .catch(error => {
+            console.log('ERROR:', error.message || error);
+        });
+});
+
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');
