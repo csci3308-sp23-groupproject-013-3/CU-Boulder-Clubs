@@ -15,6 +15,7 @@ SELECT 'This club changed my life!', 4, 2, 1
 WHERE NOT EXISTS (
     SELECT 1 FROM reviews WHERE text = 'This club changed my life!'
 );
+
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('1825','Religion & Spirituality','7:00pm','2221 Stonehenge Circle Lafayette',6);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('4Ukraine','Social Justice, Advocacy, & Activism',NULL,NULL,5);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('Adobe Creative Club','Art, Music, & Performance','Not decidesd yet','Not decidesd yet',3);

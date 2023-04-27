@@ -1,14 +1,3 @@
-DROP TABLE IF EXISTS reviews CASCADE;
-CREATE TABLE IF NOT EXISTS reviews (
-    review_id SERIAL PRIMARY KEY,
-    text TEXT NOT NULL,
-    rating INTEGER NOT NULL,
-    user_id VARCHAR NOT NULL REFERENCES users(username),
-    club_id INTEGER NOT NULL REFERENCES clubs(club_id),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
-
 DROP TABLE IF EXISTS clubs CASCADE;
 CREATE TABLE IF NOT EXISTS clubs(
   club_id SERIAL PRIMARY KEY,
@@ -39,6 +28,17 @@ DROP TABLE IF EXISTS categories CASCADE;
 CREATE TABLE IF NOT EXISTS categories(
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(120) NOT NULL
+);
+
+DROP TABLE IF EXISTS reviews CASCADE;
+CREATE TABLE IF NOT EXISTS reviews (
+    review_id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    rating INTEGER NOT NULL,
+    user_id VARCHAR NOT NULL REFERENCES users(username),
+    club_id INTEGER NOT NULL REFERENCES clubs(club_id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
 );
 
 /*
