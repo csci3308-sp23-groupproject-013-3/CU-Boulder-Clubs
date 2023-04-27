@@ -12,10 +12,10 @@ CREATE TABLE IF NOT EXISTS reviews (
 DROP TABLE IF EXISTS clubs CASCADE;
 CREATE TABLE IF NOT EXISTS clubs(
   club_id SERIAL PRIMARY KEY,
-  club_name VARCHAR(120) NOT NULL,
+  club_name TEXT NOT NULL,
   club_description TEXT,
   category VARCHAR(120),
-  meeting_time VARCHAR(120),
+  meeting_time TEXT,
   location VARCHAR(120),
   members SMALLINT
 );

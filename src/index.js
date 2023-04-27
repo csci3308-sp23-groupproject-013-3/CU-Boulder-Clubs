@@ -14,7 +14,6 @@ const dbConfig = {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    max_connections: 10,
 };
 
 const db = pgp(dbConfig);
@@ -71,8 +70,6 @@ app.post('/login', (req, res) => {
                     req.session.loggedin = true;
                     req.session.user = username;
                     req.session.save();
-                    //res.json({ status: 'success', message: 'Welcome!' })
-                    res.redirect('/home');
                 } else {
                     //res.json({ status: 'error', message: 'Incorrect username or password' })
                     res.render('pages/login', {
@@ -134,7 +131,7 @@ app.post('/register', async (req, res) => {
 app.get('/clubs', async (req, res) => {
     const categories = await db.any('SELECT * FROM categories');
 
-    db.any('SELECT * FROM clubs_view')
+    db.any('SELECT * FROM clubs')
         .then(data => {
             const clubs = data;
             res.render('pages/clubs', {
@@ -149,7 +146,7 @@ app.get('/clubs', async (req, res) => {
 
 app.get('/clubs/:id', (req, res) => {
     const id = req.params.id;
-    db.oneOrNone('SELECT * FROM clubs_view WHERE club_id = $1', [id])
+    db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id])
         .then(club => {
             res.render('pages/clubPages', {
                 club,
@@ -161,7 +158,7 @@ app.get('/clubs/:id', (req, res) => {
 });
 
 
-app.get('/clubs/add', (req, res) => {
+app.get('/add/club', (req, res) => {
     db.any('SELECT * FROM categories')
         .then(categories => {
             res.render('pages/addClub', {
@@ -173,9 +170,9 @@ app.get('/clubs/add', (req, res) => {
         });
 });
 
-app.post('/clubs/add', (req, res) => {
+app.post('/add/club', (req, res) => {
     const { name, description, category } = req.body;
-    db.none('INSERT INTO clubs(name, description, category_id) VALUES($1, $2, $3)', [
+    db.none('INSERT INTO clubs(club_name, club_description, category) VALUES($1, $2, $3)', [
         name,
         description,
         category,
@@ -188,12 +185,15 @@ app.post('/clubs/add', (req, res) => {
         });
 });
 
-app.get('/clubs/:id/edit', (req, res) => {
+app.get('/clubs/:id/edit', async (req, res) => {
     const id = req.params.id;
+    const categories = await db.any('SELECT * FROM categories');
+
     db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id])
         .then(club => {
             res.render('pages/editClub', {
                 club,
+                categories,
             });
         })
         .catch(error => {

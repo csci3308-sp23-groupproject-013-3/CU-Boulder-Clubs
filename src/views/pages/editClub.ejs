@@ -5,7 +5,7 @@
     <h1>Edit <%= club.club_name %></h1>
 </div>
 <div class="container mt-3">
-    <form action="/clubs/<%= team.team_id %>/edit" method="POST">
+    <form action="/clubs/<%= club.club_id %>/edit" method="POST">
         <div class="form-group">
             <label for="club_name">Club Name</label>
             <input type="text" class="form-control" id="club_name" name="club_name" value="<%= club.club_name %>">
@@ -17,7 +17,7 @@
         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
             <option value="NULL" selected>Open this select menu</option>
             <% categories.forEach(function(category) { %>
-                <option value="<%= category.name %>"><%= category.name %></option>
+                <option value="<%= category.category_name %>"><%= category.category_name %></option>
             <% }); %>
         </select>
         <div class="form-group">
