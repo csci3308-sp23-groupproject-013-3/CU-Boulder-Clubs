@@ -72,10 +72,7 @@ app.post('/login', (req, res) => {
                     req.session.user = username;
                     req.session.save();
                     //res.json({ status: 'success', message: 'Welcome!' })
-                    res.redirect('/home', {
-                        message: 'Welcome!',
-                        messageClass: 'alert-success',
-                        });
+                    res.redirect('/home');
                 } else {
                     //res.json({ status: 'error', message: 'Incorrect username or password' })
                     res.render('pages/login', {
@@ -267,19 +264,13 @@ app.post('/clubs/:id/delete', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-    const query = "SELECT club_id FROM users_clubs WHERE username = $1;";
     const username = req.session.user;
     console.log("Username: " + username);
 
-    db.any(query, [username])
+    db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
         .then((result) => {
-            console.log(result[0]['club_id']);
-            const query2 = "SELECT * FROM clubs WHERE club_id = $1;";
-            db.any(query2, result[0]['club_id'])
-                .then((result2) => {
-                    console.log(result2);
-                    res.render('pages/home', { clubs: result2 });
-                })
+            console.log(result);
+            res.render('pages/home', { clubs: result });
         })
         .catch((err) => {
             console.log(err);
