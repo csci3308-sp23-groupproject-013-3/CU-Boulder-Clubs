@@ -49,7 +49,7 @@ function sortTable() {
         }
     }
     else if (sort == "MEMBERS"){
-        columnNum = 4;
+        columnNum = 5;
         while(switching) {
             switching = false;
             tr = table.getElementsByTagName("tr");
@@ -57,7 +57,7 @@ function sortTable() {
                 shouldSwitch = false;
                 x = tr[i].getElementsByTagName("td")[columnNum];
                 y = tr[i + 1].getElementsByTagName("td")[columnNum];
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (Number(x.innerHTML.toLowerCase()) < Number(y.innerHTML.toLowerCase())) {
                     shouldSwitch = true;
                     break;
                 }
