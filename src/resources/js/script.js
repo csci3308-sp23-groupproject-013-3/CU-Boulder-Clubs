@@ -2,36 +2,13 @@
 // Sorts the table in alphabetical order by the column specified by the user input
 // Stored in the variable "sort"
 function sortTable() {
-    //document.getElementById("reverse").checked = false;
-    var cards = document.getElementByID("cardView").checked;
-
     var input, sort, table, tr, columnNum, i, x, y, switching, shouldSwitch;
-    if (cards) table = document.getElementById("cards");
-    else table = document.getElementById("clubTable");
+    table = document.getElementById("clubTable");
 
     input = document.getElementById("sort");
     sort = input.value.toUpperCase();
     switching = true;
-    if (cards) {
-        while(switching) {
-            switching = false;
-            tr = table.getElementsByTagName("div");
-            for (i = 0; i < (tr.length - 1); i++) {
-                shouldSwitch = false;
-                x = tr[i].getElementsByTagName("h5")[0];
-                y = tr[i + 1].getElementsByTagName("h5")[0];
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            if (shouldSwitch) {
-                tr[i].parentNode.insertBefore(tr[i + 1], tr[i]);
-                switching = true;
-            }
-        }
-    }
-    else if (sort == "NAME"){
+    if (sort == "NAME"){
         columnNum = 0;
         while(switching) {
             switching = false;
