@@ -3,19 +3,19 @@
 
 <div class="container">
     <h1>Add Club</h1>
-    <form action="/clubs/add" method="POST">
+    <form action="/add/club" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Club Name</span>
-            <input type="text" class="form-control" placeholder="name" aria-label="name" id="name" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" placeholder="Name" aria-label="name" id="name" aria-describedby="basic-addon1">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Club Description</span>
             <textarea type="text" class="form-control" aria-label="description" id="description" aria-describedby="basic-addon1"></textarea>
         </div>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="category">
             <option selected>Open this select menu</option>
             <% categories.forEach(function(category) { %>
-                <option value="<%= category.name %>"><%= category.name %></option>
+                <option value="<%= category.category_name %>"><%= category.category_name %></option>
             <% }); %>
         </select>
         <button type="submit" class="btn btn-primary">Add Club</button>
