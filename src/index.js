@@ -70,20 +70,15 @@ app.post('/login', (req, res) => {
                     req.session.loggedin = true;
                     req.session.user = username;
                     req.session.save();
-                    res.json({ status: 'success', message: 'Welcome!' })
-                    res.redirect('/clubs', {
-                        message: 'Welcome!',
-                        messageClass: 'alert-success',
-                        });
                 } else {
-                    res.json({ status: 'error', message: 'Incorrect username or password' })
+                    //res.json({ status: 'error', message: 'Incorrect username or password' })
                     res.render('pages/login', {
                         message: 'Incorrect username or password',
                         error: true,
                     });
                 }
             } else {
-                res.json({ status: 'error', message: 'Incorrect username or password' })
+                //res.json({ status: 'error', message: 'Incorrect username or password' })
                 res.render('pages/register', {
                     message: 'Incorrect username or password',
                     error: true,
@@ -105,7 +100,7 @@ app.post('/register', async (req, res) => {
     db.oneOrNone('SELECT * FROM users WHERE username = $1', [username])
         .then(user => {
             if (user) {
-                res.json({ status: 'error', message: 'Username already exists' })
+                //res.json({ status: 'error', message: 'Username already exists' })
                 res.render('pages/register', {
                     message: 'Username already exists',
                     error: true,
@@ -116,7 +111,7 @@ app.post('/register', async (req, res) => {
                     hashedPassword,
                 ])
                     .then(() => {
-                        res.json({ status: 'success', message: 'Registration successful' })
+                        //res.json({ status: 'success', message: 'Registration successful' })
                         res.render('pages/login', {
                             message: 'Registration successful',
                             messageClass: 'alert-success',
@@ -161,6 +156,7 @@ app.get('/clubs/:id', (req, res) => {
             console.log('ERROR:', error.message || error);
         });
 });
+
 
 app.get('/add/club', (req, res) => {
     db.any('SELECT * FROM categories')
@@ -264,6 +260,21 @@ app.post('/clubs/:id/delete', (req, res) => {
         })
         .catch(error => {
             console.log('ERROR:', error.message || error);
+        });
+});
+
+app.get('/home', (req, res) => {
+    const username = req.session.user;
+    console.log("Username: " + username);
+
+    db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
+        .then((result) => {
+            console.log(result);
+            res.render('pages/home', { clubs: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.render('pages/home', { clubs: [] })
         });
 });
 
