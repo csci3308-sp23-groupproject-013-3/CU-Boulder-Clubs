@@ -70,6 +70,7 @@ app.post('/login', (req, res) => {
                     req.session.loggedin = true;
                     req.session.user = username;
                     req.session.save();
+                    res.redirect('/home');
                 } else {
                     //res.json({ status: 'error', message: 'Incorrect username or password' })
                     res.render('pages/login', {
