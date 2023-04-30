@@ -1,3 +1,13 @@
+body {
+    background-color: lightgray;
+    font-family: "Verdana", sans-serif;
+}
+
+  a {
+    color: teal;
+    text-decoration: none;
+  }
+  
 #head {
     position: absolute;
     width: 100%;
@@ -8,7 +18,7 @@
 
 #search {
     position: fixed;
-    width: 25%;
+    width: 20%;
     height: 85%;
     right: 0;
     top: 10em;
@@ -33,7 +43,7 @@
 
 #sortOptions {
     position: fixed;
-    width: 25%;
+    width: 20%;
     height: 85%;
     right: 0;
     top: 12.5em;
