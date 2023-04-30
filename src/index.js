@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
 const async = require('async');
-
+const router = express.Router();
 // CONNECT TO DB
 const dbConfig = {
     host: 'db',
@@ -161,12 +161,14 @@ app.get('/clubs/:id', (req, res) => {
         .then(club => {
             res.render('pages/clubPages', {
                 club,
+                user_id: req.session.user_id
             });
         })
         .catch(error => {
             console.log('ERROR:', error.message || error);
         });
 });
+
 
 
 app.get('/add/club', (req, res) => {
@@ -288,6 +290,47 @@ app.get('/home', (req, res) => {
             res.render('pages/home', { clubs: [] })
         });
 });
+
+app.post('/joinclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      
+  
+      db.none('INSERT INTO users_clubs (username, club_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} joined club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });
+  
+  /*app.post('/leaveclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      db.none('DELETE FROM users_clubs WHERE username = $1 AND club_id = $2', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} left club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });*/
+  
 
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');

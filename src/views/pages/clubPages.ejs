@@ -22,8 +22,13 @@
                     <td><%= club.club_description %></td>
                     <td><img src="<%= club.club_image %>" alt="club image" width="200" height="200"></td>
                 </tr>
+            </tbody>
         </table>
+        <form action="/joinclub" method="POST">
+            <input type="hidden" name="club_id" value="<%= club.club_id %>">
+            <button type="submit" class="btn btn-primary">Join Club</button>
+          </form>
+          
     </div>
 </div>
-
 <%- include ('../partials/footer') %>
