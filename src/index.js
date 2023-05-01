@@ -89,8 +89,17 @@ app.post('/login', (req, res) => {
         .catch(error => {
             console.log('ERROR:', error.message || error);
         });
+        
 });
-
+app.get('/api/username', (req, res) => {
+    if (req.session.loggedin && req.session.user) {
+      res.json({ username: req.session.user });
+    } else {
+      res.status(401).json({ message: 'Unauthorized' });
+    }
+  });
+  
+  
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
       if (err) {
