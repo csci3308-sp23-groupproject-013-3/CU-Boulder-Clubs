@@ -3,22 +3,22 @@ body {
     font-family: "Verdana", sans-serif;
 }
 
-  a {
+a {
     color: teal;
     text-decoration: none;
-  }
-  
+}
+
 #head {
     position: absolute;
     width: 100%;
     height: 10em;
     left: 3%;
-    top: 7%;
+    top: 10%;
 }
 
 #search {
     position: fixed;
-    width: 20%;
+    width: 22.5%;
     height: 85%;
     right: 0;
     top: 10em;
@@ -28,7 +28,7 @@ body {
     width: 75%;
     position: absolute;
     left: 0;
-    top: 7.5em;
+    top: 8em;
     height: 85%;
 }
 
@@ -43,8 +43,16 @@ body {
 
 #sortOptions {
     position: fixed;
-    width: 20%;
+    width: 22.5%;
     height: 85%;
     right: 0;
     top: 12.5em;
+}
+
+#adminOptions {
+    position: fixed;
+    width: 20%;
+    height: 15%;
+    right: 0;
+    bottom: 10%;
 }
