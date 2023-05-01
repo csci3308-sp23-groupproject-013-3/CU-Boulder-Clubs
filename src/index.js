@@ -38,6 +38,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         saveUninitialized: false,
         resave: false,
+        admin: false,
     })
 );
 
@@ -69,6 +70,7 @@ app.post('/login', (req, res) => {
                 if (result) {
                     req.session.loggedin = true;
                     req.session.user = username;
+                    req.session.admin = user.admin;
                     req.session.save();
                     res.redirect('/home');
                 } else {
@@ -157,6 +159,7 @@ app.get('/clubs', async (req, res) => {
             res.render('pages/clubs', {
                 clubs,
                 categories,
+                admin: req.session.admin,
             });
         })
         .catch(error => {
@@ -170,7 +173,8 @@ app.get('/clubs/:id', (req, res) => {
         .then(club => {
             res.render('pages/clubPages', {
                 club,
-                user_id: req.session.user_id
+                user_id: req.session.user_id,
+                admin: req.session.admin,
             });
         })
         .catch(error => {
@@ -178,7 +182,71 @@ app.get('/clubs/:id', (req, res) => {
         });
 });
 
+app.get('/home', (req, res) => {
+    const username = req.session.user;
+    console.log("Username: " + username);
 
+    db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
+        .then((result) => {
+            console.log(result);
+            res.render('pages/home', { clubs: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.render('pages/home', { clubs: [] })
+        });
+});
+
+app.post('/joinclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      
+  
+      db.none('INSERT INTO users_clubs (username, club_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} joined club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });
+  
+  /*app.post('/leaveclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      db.none('DELETE FROM users_clubs WHERE username = $1 AND club_id = $2', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} left club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });*/
+
+const auth = (req, res, next) => {
+    if (!req.session.user) {
+        // Default to login page.
+        return res.redirect('/login');
+    }
+    next();
+};
+
+// Authentication Required
+app.use(auth);
 
 app.get('/add/club', (req, res) => {
     db.any('SELECT * FROM categories')
@@ -284,62 +352,6 @@ app.post('/clubs/:id/delete', (req, res) => {
             console.log('ERROR:', error.message || error);
         });
 });
-
-app.get('/home', (req, res) => {
-    const username = req.session.user;
-    console.log("Username: " + username);
-
-    db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
-        .then((result) => {
-            console.log(result);
-            res.render('pages/home', { clubs: result });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.render('pages/home', { clubs: [] })
-        });
-});
-
-app.post('/joinclub', (req, res) => {
-    if (!req.session.loggedin) {
-      res.redirect('/login');
-    } else {
-      const username = req.session.user;
-      const { club_id } = req.body;
-  
-      
-  
-      db.none('INSERT INTO users_clubs (username, club_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [username, club_id])
-        .then(() => {
-          console.log(`User ${username} joined club ${club_id}`);
-          res.redirect('/home');
-        })
-        .catch(error => {
-          console.log('ERROR:', error.message || error);
-          res.redirect('/home');
-        });
-    }
-  });
-  
-  /*app.post('/leaveclub', (req, res) => {
-    if (!req.session.loggedin) {
-      res.redirect('/login');
-    } else {
-      const username = req.session.user;
-      const { club_id } = req.body;
-  
-      db.none('DELETE FROM users_clubs WHERE username = $1 AND club_id = $2', [username, club_id])
-        .then(() => {
-          console.log(`User ${username} left club ${club_id}`);
-          res.redirect('/home');
-        })
-        .catch(error => {
-          console.log('ERROR:', error.message || error);
-          res.redirect('/home');
-        });
-    }
-  });*/
-  
 
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');
