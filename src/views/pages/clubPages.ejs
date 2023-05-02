@@ -38,7 +38,6 @@
           <form method="POST" action="/reviews/<%= review.id %>/delete" style="display: inline;">
             <button type="submit" class="btn btn-danger btn-sm" style="background-color:#CFB87C;">Delete</button>
           </form>
-<<<<<<< Updated upstream
         <% if (admin) { %>
         <div class="container my-3" id="adminOptions">
             <h3>ADMIN OPTIONS</h3>
@@ -47,7 +46,6 @@
         </div>
         <% } %>
           
-=======
         <% } %>
         <span class="review-author"><%= review.author %> (<%= review.created_at.toLocaleString() %>)</span>
       </li>
@@ -72,7 +70,6 @@
       <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Submit Review</button>
     </form>
     
->>>>>>> Stashed changes
     </div>
   </div>
   
