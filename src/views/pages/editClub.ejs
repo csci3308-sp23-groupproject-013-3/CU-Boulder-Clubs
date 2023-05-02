@@ -14,8 +14,8 @@
             <label for="description">Club Description</label>
             <input type="text" class="form-control" id="description" name="description" value="<%= club.club_description %>">
         </div>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-            <option value="NULL" selected>Open this select menu</option>
+        <select class="form-select form-select-lg my-3" aria-label=".form-select-lg example" name="category">
+            <option value="NULL" selected>Select category</option>
             <% categories.forEach(function(category) { %>
                 <option value="<%= category.category_name %>"><%= category.category_name %></option>
             <% }); %>
@@ -25,13 +25,14 @@
             <input type="text" class="form-control" id="meeting_time" name="meeting_time" value="<%= club.meeting_time %>">
         </div>
         <div class="form-group">
-            <label for="meeting_location">Club Meeting Location</label>
+            <label for="location">Club Meeting Location</label>
             <input type="text" class="form-control" id="location" name="location" value="<%= club.location %>">
         </div>
         <div class="form-group">
             <label for="members">Club Member Count</label>
             <input type="text" class="form-control" id="members" name="members" value="<%= club.members %>">
         </div>
+        <button type="submit" class="btn btn-primary my-3">Submit</button>
     </form>
 </div>
 

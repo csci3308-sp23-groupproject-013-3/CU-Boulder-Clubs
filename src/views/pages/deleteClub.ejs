@@ -2,11 +2,11 @@
 <%- include ('../partials/menu') %>
 
 <div class="container">
-    <h1>Delete <%= club.club_name %>?</h1>
+    <h1>Delete: '<%= club.club_name %>'?</h1>
     <form action="/clubs/<%= club.club_id %>/delete" method="POST">
-        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-danger my-2">Delete</button>
     </form>
-    <button class="btn btn-primary" onclick="window.location.href='/clubs'">Cancel</button>
+    <button class="btn btn-primary my-2" onclick="window.location.href='/clubs'">Cancel</button>
 </div>
 
 <%- include ('../partials/footer') %>
