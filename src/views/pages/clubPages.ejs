@@ -1,7 +1,7 @@
 <%- include ('../partials/head') %>
 <%- include ('../partials/menu') %>
 
-<div class="container"/>
+<div class="container">
     <div class="container">
         <h1 class="my-3"><%= club.club_name %></h1>
     </div>
@@ -11,6 +11,7 @@
         <hr class="my-3">
         <h4 class="my-3"><%= club.club_name %> meets on <%= club.meeting_time %> @ <%= club.location %></h4>
     </div>
+</div>
 
 <div class="container">
     <div class="container d-flex justify-content-between align-items-center">
@@ -20,7 +21,8 @@
       </form>
     </div>
   <div class="container">
-      
+
+      <br>
       <h2>Reviews</h2>
   <ul>
     <% reviews.forEach(function(review) { %>
@@ -63,7 +65,7 @@
     </form>
     
     </div>
-  </div>
+</div>
   
 
 <%- include ('../partials/footer') %>
