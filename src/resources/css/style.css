@@ -28,16 +28,16 @@ a {
     width: 75%;
     position: absolute;
     left: 0;
-    top: 8em;
-    height: 85%;
+    top: 10em;
+    height: 80%;
 }
 
 #cards {
     width: 75%;
     position: absolute;
     left: 0;
-    top: 7.5em;
-    height: 85%;
+    top: 8em;
+    height: 80%;
     display: none;
 }
 
