@@ -5,24 +5,31 @@
   <div class="col"><%- include ('../partials/message') %></div>
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
-      <h1 class="display-4">Welcome <span id="username"></span>!</h1>
+      <h1 class="display-4">Welcome <%=name%>!</h1>
       <p class="lead">We’re not bragging when we say there’s a lot to do at CU. Whether it’s environmental protection, artistic expression, social justice or athletic competition that sparks your interest, our more than 450 recognized student organizations have something for everyone.</p>
     </div>
   </div>
   <div class="album py-5 bg-lightgray">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <% clubs.forEach(club => { %>
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body" id="club-card">
-                <h5 class="card-title"><a href="/clubs/<%= club.club_id %>"><%= club.club_name %></a></h5>
-                <p class="card-text">Category: <%= club.category %></p>
-                <p class="card-text">Meeting Time: <%= club.meeting_time %></p>
+
+        <% if(clubs.length != 0){ %>
+          <% clubs.forEach(club => { %>
+            <h3 class="display">Your clubs:</h3>
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body" id="club-card">
+                  <h5 class="card-title"><a href="/clubs/<%= club.club_id %>"><%= club.club_name %></a></h5>
+                  <p class="card-text">Category: <%= club.category %></p>
+                  <p class="card-text">Meeting Time: <%= club.meeting_time %></p>
+                </div>
               </div>
             </div>
-          </div>
-        <% }); %>
+          <% }); %>
+        <% } else{ %>  
+          <li class="nav-item mx-2"></li>
+          <h4>You are not part of any clubs yet, select <a href="/clubs">Clubs</a> to learn more!</h4></li>
+       <% } %>
       </div>
     </div>
   </div>
@@ -30,13 +37,3 @@
 
 <%- include ('../partials/footer') %>
 
-<script>
-  // Make a GET request to the /api/username endpoint to get the logged-in user's username
-  fetch('/api/username')
-    .then(response => response.json())
-    .then(data => {
-      const usernameElement = document.getElementById('username');
-      usernameElement.textContent = data.username;
-    })
-    .catch(error => console.error(error));
-</script>
