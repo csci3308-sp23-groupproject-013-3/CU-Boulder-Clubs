@@ -262,6 +262,8 @@ app.get('/add/club', (req, res) => {
 
 app.post('/add/club', (req, res) => {
     const { name, description, category } = req.body;
+    console.log(name, description, category)
+
     db.none('INSERT INTO clubs(club_name, club_description, category) VALUES($1, $2, $3)', [
         name,
         description,
@@ -293,14 +295,14 @@ app.get('/clubs/:id/edit', async (req, res) => {
 
 app.post('/clubs/:id/edit', (req, res) => {
     const id = req.params.id;
-    const { club_name, description, category, meeting_time, meeting_location, members } = req.body;
+    const { club_name, description, category, meeting_time, location, members } = req.body;
     if (category != "NULL"){
-        db.none('UPDATE clubs SET name = $1, description = $2, category = $3, meeting_time = $4, meeting_location = $5, members = $6 WHERE club_id = $7', [
+        db.none('UPDATE clubs SET club_name = $1, club_description = $2, category = $3, meeting_time = $4, location = $5, members = $6 WHERE club_id = $7', [
             club_name,
             description,
             category,
             meeting_time,
-            meeting_location,
+            location,
             members,
             id,
         ])
@@ -312,11 +314,11 @@ app.post('/clubs/:id/edit', (req, res) => {
             });
     }
     else{
-        db.none('UPDATE clubs SET name = $1, description = $2, meeting_time = $3, meeting_location = $4, members = $5 WHERE club_id = $6', [
+        db.none('UPDATE clubs SET club_name = $1, club_description = $2, meeting_time = $3, location = $4, members = $5 WHERE club_id = $6', [
             club_name,
             description,
             meeting_time,
-            meeting_location,
+            location,
             members,
             id,
         ])
@@ -346,6 +348,7 @@ app.post('/clubs/:id/delete', (req, res) => {
     const id = req.params.id;
     db.none('DELETE FROM clubs WHERE club_id = $1', [id])
         .then(() => {
+            console.log(`Club ${id} deleted`)
             res.redirect('/clubs');
         })
         .catch(error => {

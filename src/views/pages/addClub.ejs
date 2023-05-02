@@ -6,13 +6,13 @@
     <form action="/add/club" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Club Name</span>
-            <input type="text" class="form-control" placeholder="Name" aria-label="name" id="name" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" placeholder="Name" aria-label="name" id="name" name="name" aria-describedby="basic-addon1">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Club Description</span>
-            <textarea type="text" class="form-control" aria-label="description" id="description" aria-describedby="basic-addon1"></textarea>
+            <textarea class="form-control" aria-label="description" id="description" name="description" aria-describedby="basic-addon1"></textarea>
         </div>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="category">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="category" id="category">
             <option selected>Open this select menu</option>
             <% categories.forEach(function(category) { %>
                 <option value="<%= category.category_name %>"><%= category.category_name %></option>
