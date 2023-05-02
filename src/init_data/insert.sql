@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 INSERT INTO reviews (text, rating, user_id, club_id)
 SELECT 'Great club, highly recommend!', 5, 1, 2
 WHERE NOT EXISTS (
@@ -16,6 +17,8 @@ WHERE NOT EXISTS (
     SELECT 1 FROM reviews WHERE text = 'This club changed my life!'
 );
 
+=======
+>>>>>>> Stashed changes
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('1825','Religion & Spirituality','7:00pm','2221 Stonehenge Circle Lafayette',6);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('4Ukraine','Social Justice, Advocacy, & Activism',NULL,NULL,5);
 INSERT INTO clubs(club_name,category,meeting_time,location,members) VALUES ('Adobe Creative Club','Art, Music, & Performance','Not decidesd yet','Not decidesd yet',3);
@@ -602,3 +605,34 @@ INSERT INTO categories (category_name) VALUES ('Social Justice, Advocacy, & Acti
 
 
 INSERT INTO users_clubs (username, club_id) VALUES ('vilo2343', 10);
+
+
+
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club is amazing! The people are friendly and welcoming, and the events are always so much fun.', 5, 'user123', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I love this club! It has helped me meet new people and learn new skills.', 4, 'user456', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club is great for networking and making connections.', 4, 'user789', 3);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('The events are always well-organized and the members are friendly and welcoming.', 4, 'user789', 6);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has helped me improve my skills and gain confidence.', 4, 'user123', 7);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I love the community spirit of this club!', 5, 'user456', 8);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club is great for anyone looking to learn new things and meet new people.', 4, 'user789', 9);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I had a lot of fun at the last event and met some great people.', 4, 'user123', 10);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I joined this club to improve my skills and it has exceeded my expectations.', 5, 'user456', 11);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('The events are always interesting and informative, and the members are friendly and welcoming.', 4, 'user789', 12);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I have made some great connections through this club.', 5, 'user123', 13);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club is perfect for anyone who wants to meet new people and learn new things.', 4, 'user456', 14);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('The events are always well-planned and the members are enthusiastic and friendly.', 4, 'user789', 15);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This is a great club! The events are well organized and the people are friendly.', 4, 'user789', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I had a blast at the last event! This club has a great community and I''m excited to attend more events in the future.', 5, 'user123', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I''ve met some really interesting people at this club. It''s a great way to expand your social circle!', 4, 'user456', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has been a lifesaver during the pandemic. It''s been a great way to stay connected with others while staying safe.', 5, 'user789', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I was nervous about attending my first event, but everyone was so welcoming and friendly. This club is awesome!', 4, 'user123', 1);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has given me the opportunity to try new things and learn new skills. I''m so glad I joined!', 5, 'user456', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('The events are always well-organized and the leaders are knowledgeable and helpful.', 4, 'user789', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has helped me step out of my comfort zone and try new things. It''s been a great experience!', 5, 'user123', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I''ve made some great friends through this club. The community is so welcoming and supportive.', 4, 'user456', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has helped me develop new skills and expand my interests. I''m so grateful for the opportunities it provides.', 5, 'user789', 2);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I love the events this club puts on! They''re always so much fun and well-organized.', 4, 'user123', 3);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('This club has helped me meet new people and explore new hobbies. I''m so glad I joined!', 5, 'user456', 3);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I''ve had a great time at all the events I''ve attended. This club has a great community!', 4, 'user789', 3);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('The leaders of this club are passionate and knowledgeable. It''s been a great learning experience!', 5, 'user123', 3);
+INSERT INTO reviews (text, rating, user_id, club_id) VALUES ('I''ve made some great connections through this club. The people are so friendly and welcoming!', 4, 'user456', 3);

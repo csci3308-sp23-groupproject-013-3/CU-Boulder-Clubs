@@ -167,19 +167,21 @@ app.get('/clubs', async (req, res) => {
         });
 });
 
-app.get('/clubs/:id', (req, res) => {
+
+app.get('/clubs/:id', async (req, res) => {
     const id = req.params.id;
-    db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id])
-        .then(club => {
-            res.render('pages/clubPages', {
-                club,
-                user_id: req.session.user_id,
-                admin: req.session.admin,
-            });
-        })
-        .catch(error => {
-            console.log('ERROR:', error.message || error);
+    try {
+        const club = await db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id]);
+        const reviews = await db.any('SELECT * FROM reviews WHERE club_id = $1', [id]);
+        res.render('pages/clubPages', {
+            club,
+            user_id: req.session.user_id,
+                admin: req.session.admin,,
+            reviews
         });
+    } catch (error) {
+        console.log('ERROR:', error.message || error);
+    }
 });
 
 app.get('/home', (req, res) => {
@@ -204,6 +206,7 @@ app.post('/joinclub', (req, res) => {
       const username = req.session.user;
       const { club_id } = req.body;
   
+
       
   
       db.none('INSERT INTO users_clubs (username, club_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [username, club_id])
@@ -352,6 +355,123 @@ app.post('/clubs/:id/delete', (req, res) => {
             console.log('ERROR:', error.message || error);
         });
 });
+
+app.get('/home', (req, res) => {
+    const username = req.session.user;
+    console.log("Username: " + username);
+
+    db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
+        .then((result) => {
+            console.log(result);
+            res.render('pages/home', { clubs: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.render('pages/home', { clubs: [] })
+        });
+});
+
+app.post('/joinclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      
+  
+      db.none('INSERT INTO users_clubs (username, club_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} joined club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });
+  
+  // Get reviews for a club
+  app.get('/club/:id/reviews', (req, res) => {
+    const clubId = req.params.id;
+    const userId = req.session.user ? req.session.user.id : null;
+    const queryString = 'SELECT r.*, u.username as author FROM reviews r INNER JOIN users u ON r.user_id = u.id WHERE r.club_id = $1 ORDER BY r.created_at DESC';
+    db.manyOrNone(queryString, [clubId])
+      .then(reviews => {
+        if (reviews.length === 0) {
+          res.render('reviews', { reviews, club_id: clubId, error: 'No reviews yet.' });
+        } else {
+          res.render('reviews', { reviews, club_id: clubId, user_id: userId });
+        }
+      })
+      .catch(error => {
+        console.log('ERROR:', error.message || error);
+        res.status(500).json({ status: 'error', message: 'Error retrieving reviews' });
+      });
+  });
+  
+  // Add a review
+  app.post('/clubs/:clubId/reviews', async (req, res) => {
+    const { clubId } = req.params;
+    const { text, rating } = req.body;
+    const { username } = req.session.user;
+  
+    try {
+
+      // Insert the new review into the database
+      const username = req.session.user;
+      const result = await db.query(`
+        INSERT INTO reviews (text, rating, user_id, club_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *
+      `, [text, rating, username, clubId]);
+  
+      // Redirect back to the club page
+      res.redirect(`/clubs/${clubId}`);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error adding review');
+    }
+  });
+  
+  app.post('/reviews/:id/delete', async (req, res) => {
+    const reviewId = req.params.id;
+  
+    try {
+      // Delete the review from the database
+      const result = await db.query(`
+        DELETE FROM reviews
+        WHERE id = $1
+      `, [reviewId]);
+  
+      res.redirect('back');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error deleting review');
+    }
+  });
+  
+  
+  /*app.post('/leaveclub', (req, res) => {
+    if (!req.session.loggedin) {
+      res.redirect('/login');
+    } else {
+      const username = req.session.user;
+      const { club_id } = req.body;
+  
+      db.none('DELETE FROM users_clubs WHERE username = $1 AND club_id = $2', [username, club_id])
+        .then(() => {
+          console.log(`User ${username} left club ${club_id}`);
+          res.redirect('/home');
+        })
+        .catch(error => {
+          console.log('ERROR:', error.message || error);
+          res.redirect('/home');
+        });
+    }
+  });*/
+  
 
 module.exports = app.listen(3000);
 console.log('Server running on port 3000');

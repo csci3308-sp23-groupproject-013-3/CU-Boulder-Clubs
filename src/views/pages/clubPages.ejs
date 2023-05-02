@@ -1,32 +1,42 @@
 <%- include ('../partials/head') %>
 <%- include ('../partials/menu') %>
 
-<div class="container"/>
-    <div class="container">
-        <h1><%= club.club_name %></h1>
+<div class="container">
+    <div class="container d-flex justify-content-between align-items-center">
+      <h1><%= club.club_name %></h1>
+      <form action="/joinclub" method="POST">
+          <input type="hidden" name="club_id" value="<%= club.club_id %>">
+          <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Join Club</button>
+      </form>
     </div>
     <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Club Name</th>
-                    <th>Club Location</th>
-                    <th>Club Description</th>
-                    <th>Club Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><%= club.club_name %></td>
-                    <td><%= club.club_location %></td>
-                    <td><%= club.club_description %></td>
-                    <td><img src="<%= club.club_image %>" alt="club image" width="200" height="200"></td>
-                </tr>
-            </tbody>
-        </table>
-        <form action="/joinclub" method="POST">
-            <input type="hidden" name="club_id" value="<%= club.club_id %>">
-            <button type="submit" class="btn btn-primary">Join Club</button>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Club Name</th>
+            <th>Club Location</th>
+            <th>Club Description</th>
+            <th>Club Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= club.club_name %></td>
+            <td><%= club.club_location %></td>
+            <td><%= club.club_description %></td>
+            <td><img src="<%= club.club_image %>" alt="club image" width="200" height="200"></td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h2>Reviews</h2>
+  <ul>
+    <% reviews.forEach(function(review) { %>
+      <li>
+        <%= review.text %> - <%= review.rating %> stars 
+        <% if (user_id === review.user_id) { %>
+          <form method="POST" action="/reviews/<%= review.id %>/delete" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" style="background-color:#CFB87C;">Delete</button>
           </form>
         <% if (admin) { %>
         <div class="container my-3" id="adminOptions">
@@ -36,6 +46,32 @@
         </div>
         <% } %>
           
+        <% } %>
+        <span class="review-author"><%= review.author %> (<%= review.created_at.toLocaleString() %>)</span>
+      </li>
+    <% }); %>
+  </ul>
+  <form action="/clubs/<%= club.club_id %>/reviews" method="POST">
+      <div class="form-group">
+        <label for="reviewText">Tell us what you think!</label>
+        <textarea class="form-control" id="reviewText" name="text" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="reviewRating">Rating</label>
+        <select class="form-control" id="reviewRating" name="rating" required>
+          <option value="">Select a rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Submit Review</button>
+    </form>
+    
     </div>
-</div>
+  </div>
+  
+
 <%- include ('../partials/footer') %>
