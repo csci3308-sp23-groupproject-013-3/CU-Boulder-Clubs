@@ -175,9 +175,9 @@ app.get('/clubs/:id', async (req, res) => {
         const reviews = await db.any('SELECT * FROM reviews WHERE club_id = $1', [id]);
         res.render('pages/clubPages', {
             club,
+            reviews,
             user_id: req.session.user_id,
-                admin: req.session.admin,,
-            reviews
+            admin: req.session.admin,
         });
     } catch (error) {
         console.log('ERROR:', error.message || error);
