@@ -10,13 +10,25 @@
         <p class="mb-3"><%= club.club_description %></p>
         <hr class="my-3">
         <h4 class="my-3"><%= club.club_name %> meets on <%= club.meeting_time %> @ <%= club.location %></h4>
+    </div>
 
-
-
-
-        <form class="my-4" action="/joinclub" method="POST">
-            <input type="hidden" name="club_id" value="<%= club.club_id %>">
-            <button type="submit" class="btn btn-primary">Join Club</button>
+<div class="container">
+    <div class="container d-flex justify-content-between align-items-center">
+      <form action="/joinclub" method="POST">
+          <input type="hidden" name="club_id" value="<%= club.club_id %>">
+          <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Join Club</button>
+      </form>
+    </div>
+  <div class="container">
+      
+      <h2>Reviews</h2>
+  <ul>
+    <% reviews.forEach(function(review) { %>
+      <li>
+        <%= review.text %> - <%= review.rating %> stars 
+        <% if (user_id === review.user_id) { %>
+          <form method="POST" action="/reviews/<%= review.id %>/delete" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" style="background-color:#CFB87C;">Delete</button>
           </form>
         <% if (admin) { %>
         <div class="container my-3" id="adminOptions">
@@ -26,6 +38,32 @@
         </div>
         <% } %>
           
+        <% } %>
+        <span class="review-author"><%= review.author %> (<%= review.created_at.toLocaleString() %>)</span>
+      </li>
+    <% }); %>
+  </ul>
+  <form action="/clubs/<%= club.club_id %>/reviews" method="POST">
+      <div class="form-group">
+        <label for="reviewText">Tell us what you think!</label>
+        <textarea class="form-control" id="reviewText" name="text" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="reviewRating">Rating</label>
+        <select class="form-control" id="reviewRating" name="rating" required>
+          <option value="">Select a rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Submit Review</button>
+    </form>
+    
     </div>
-</div>
+  </div>
+  
+
 <%- include ('../partials/footer') %>
