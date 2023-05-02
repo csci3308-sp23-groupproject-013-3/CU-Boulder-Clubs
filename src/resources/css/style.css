@@ -1,9 +1,14 @@
 body {
     background-color: lightgray;
-    font-family: "Verdana", sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
+<<<<<<< Updated upstream
 a {
+=======
+
+  a {
+>>>>>>> Stashed changes
     color: teal;
     text-decoration: none;
 }
@@ -49,6 +54,7 @@ a {
     top: 12.5em;
 }
 
+<<<<<<< Updated upstream
 #adminOptions {
     position: fixed;
     width: 20%;
@@ -56,3 +62,10 @@ a {
     right: 0;
     bottom: 10%;
 }
+=======
+.review-author {
+    font-size: 8px;
+    color: #3b3737;
+  }
+  
+>>>>>>> Stashed changes
