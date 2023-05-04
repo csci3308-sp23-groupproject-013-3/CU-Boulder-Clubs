@@ -12,10 +12,10 @@ function sortTable() {
         columnNum = 0;
     }
     else if (sort == "CATEGORY"){
-        columnNum = 2;
+        columnNum = 1;
     }
     else if (sort == "MEMBERS"){
-        columnNum = 5;
+        columnNum = 4;
     }
     // Avoid using DOM manipulation inside a loop, put all the elements of the table into the array sortedTable
     sortedTable = [];
