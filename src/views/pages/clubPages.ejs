@@ -14,12 +14,28 @@
 </div>
 
 <div class="container">
+    <% if (!userInClub) { %>
     <div class="container d-flex justify-content-between align-items-center">
       <form action="/joinclub" method="POST">
           <input type="hidden" name="club_id" value="<%= club.club_id %>">
           <button type="submit" class="btn btn-primary" style="background-color:#CFB87C;">Join Club</button>
       </form>
     </div>
+    <% } else { %>
+    <div class="container d-flex justify-content-between align-items-center">
+        <form action="/leaveclub" method="POST">
+            <input type="hidden" name="club_id" value="<%= club.club_id %>">
+            <button type="submit" class="btn btn-danger" style="background-color:#CFB87C;">Leave Club</button>
+        </form>
+    </div>
+    <% } %>
+    <% if (admin) { %>
+        <div class="container my-3" id="adminOptions">
+            <h3>ADMIN OPTIONS</h3>
+            <a href="/clubs/<%= club.club_id %>/edit" class="btn btn-primary my-2">Edit Club</a>
+            <a href="/clubs/<%= club.club_id %>/delete" class="btn btn-danger my-2">Delete Club</a>
+        </div>
+    <% } %>
   <div class="container">
 
       <br>
@@ -32,14 +48,6 @@
           <form method="POST" action="/reviews/<%= review.id %>/delete" style="display: inline;">
             <button type="submit" class="btn btn-danger btn-sm" style="background-color:#CFB87C;">Delete</button>
           </form>
-        <% if (admin) { %>
-        <div class="container my-3" id="adminOptions">
-            <h3>ADMIN OPTIONS</h3>
-            <a href="/clubs/<%= club.club_id %>/edit" class="btn btn-primary my-2">Edit Club</a>
-            <a href="/clubs/<%= club.club_id %>/delete" class="btn btn-danger my-2">Delete Club</a>
-        </div>
-        <% } %>
-          
         <% } %>
         <span class="review-author"><%= review.author %> (<%= review.created_at.toLocaleString() %>)</span>
       </li>
