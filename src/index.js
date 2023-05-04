@@ -366,11 +366,11 @@ app.get('/home', (req, res) => {
     db.any('SELECT * FROM clubs WHERE club_id IN (SELECT club_id FROM users_clubs WHERE username = $1)', [username])
         .then((result) => {
             console.log(result);
-            res.render('pages/home', { clubs: result });
+            res.render('pages/home', { clubs: result });   
         })
         .catch((err) => {
             console.log(err);
-            res.render('pages/home', { clubs: [] })
+            res.render('pages/home', { clubs: []});
         });
 });
 
