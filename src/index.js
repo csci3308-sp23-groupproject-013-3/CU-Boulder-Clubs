@@ -7,6 +7,7 @@ const session = require('express-session'); // To set the session object. To sto
 const bcrypt = require('bcrypt'); //  To hash passwords
 const async = require('async');
 const router = express.Router();
+
 // CONNECT TO DB
 const dbConfig = {
     host: 'db',
@@ -170,12 +171,21 @@ app.get('/clubs', async (req, res) => {
 
 app.get('/clubs/:id', async (req, res) => {
     const id = req.params.id;
+    var userInClub = false;
     try {
         const club = await db.oneOrNone('SELECT * FROM clubs WHERE club_id = $1', [id]);
         const reviews = await db.any('SELECT * FROM reviews WHERE club_id = $1', [id]);
+        const user_clubs = await db.any('SELECT * FROM users_clubs WHERE club_id = $1', [id]);
+        await user_clubs.forEach(user => {
+            if (user.username == req.session.user) {
+                userInClub = true;
+            }
+        });
+
         res.render('pages/clubPages', {
             club,
             reviews,
+            userInClub,
             user_id: req.session.user_id,
             admin: req.session.admin,
         });
@@ -221,7 +231,7 @@ app.post('/joinclub', (req, res) => {
     }
   });
   
-  /*app.post('/leaveclub', (req, res) => {
+app.post('/leaveclub', (req, res) => {
     if (!req.session.loggedin) {
       res.redirect('/login');
     } else {
@@ -238,7 +248,7 @@ app.post('/joinclub', (req, res) => {
           res.redirect('/home');
         });
     }
-  });*/
+});
 
 const auth = (req, res, next) => {
     if (!req.session.user) {
@@ -437,7 +447,7 @@ app.post('/joinclub', (req, res) => {
       res.status(500).send('Error adding review');
     }
   });
-  
+
   app.post('/reviews/:id/delete', async (req, res) => {
     const reviewId = req.params.id;
   
@@ -454,26 +464,6 @@ app.post('/joinclub', (req, res) => {
       res.status(500).send('Error deleting review');
     }
   });
-  
-  
-  /*app.post('/leaveclub', (req, res) => {
-    if (!req.session.loggedin) {
-      res.redirect('/login');
-    } else {
-      const username = req.session.user;
-      const { club_id } = req.body;
-  
-      db.none('DELETE FROM users_clubs WHERE username = $1 AND club_id = $2', [username, club_id])
-        .then(() => {
-          console.log(`User ${username} left club ${club_id}`);
-          res.redirect('/home');
-        })
-        .catch(error => {
-          console.log('ERROR:', error.message || error);
-          res.redirect('/home');
-        });
-    }
-  });*/
   
 
 module.exports = app.listen(3000);
