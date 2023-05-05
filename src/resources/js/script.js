@@ -12,10 +12,10 @@ function sortTable() {
         columnNum = 0;
     }
     else if (sort == "CATEGORY"){
-        columnNum = 2;
+        columnNum = 1;
     }
     else if (sort == "MEMBERS"){
-        columnNum = 5;
+        columnNum = 4;
     }
     // Avoid using DOM manipulation inside a loop, put all the elements of the table into the array sortedTable
     sortedTable = [];
@@ -58,7 +58,7 @@ function filterTable() {
         }
     } else {
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
